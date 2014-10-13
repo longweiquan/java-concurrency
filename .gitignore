@@ -1,1 +1,9 @@
+# exclude generated folders 
 /target/
+/test-output/
+
+# exclude all .resources
+.*
+
+# except 
+!.gitignore

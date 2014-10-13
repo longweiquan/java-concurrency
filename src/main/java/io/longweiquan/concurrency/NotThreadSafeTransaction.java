@@ -2,7 +2,9 @@ package io.longweiquan.concurrency;
 
 
 /**
- * Thread not safe implementation of transaction. 
+ * Non thread-safe implementation of transaction.
+ * 
+ * @author Weiquan LONG
  */
 public class NotThreadSafeTransaction implements Transaction {
 	
@@ -15,15 +17,14 @@ public class NotThreadSafeTransaction implements Transaction {
     }
     
     /**
-     * Not thread safe.
+     * {@inheritDoc}
      */
     public int getTotal() {
         return accountFrom + accountTo;
     }
     
     /**
-     * Not thread safe.
-     * @throws InterruptedException 
+     * {@inheritDoc}
      */
     public Transaction transfer(int amount) throws InterruptedException {
     	accountFrom -= amount;

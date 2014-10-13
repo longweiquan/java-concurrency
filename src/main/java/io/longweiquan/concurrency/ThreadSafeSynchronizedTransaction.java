@@ -3,6 +3,7 @@ package io.longweiquan.concurrency;
 /**
  * Thread safe implementation of transaction using the synchronized approach.
  *
+ * @author Weiquan LONG
  */
 public class ThreadSafeSynchronizedTransaction implements Transaction {
 

@@ -1,8 +1,9 @@
 package io.longweiquan.concurrency;
 
 /**
- * Thread safe implementation of transaction using the immutable approach.
- *
+ * Thread-safe implementation of transaction using the immutable approach.
+ * 
+ * @author Weiquan LONG
  */
 public class ThreadSafeImmutableTransaction implements Transaction {
 
@@ -14,11 +15,16 @@ public class ThreadSafeImmutableTransaction implements Transaction {
         this.accountTo = accountTo;
     }
     
-   
+    /**
+     * {@inheritDoc}
+     */
     public int getTotal() {
         return accountFrom + accountTo;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public Transaction transfer(int amount) throws InterruptedException {
     	
     	int newAccountFrom = accountFrom - amount;

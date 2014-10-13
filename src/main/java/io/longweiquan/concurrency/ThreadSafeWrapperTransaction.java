@@ -3,6 +3,7 @@ package io.longweiquan.concurrency;
 /**
  * Thread safe implementation of RGB Color using the wrapper approach.
  *
+ * @author Weiquan LONG
  */
 public class ThreadSafeWrapperTransaction implements Transaction {
 
