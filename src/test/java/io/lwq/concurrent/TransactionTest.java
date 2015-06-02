@@ -1,19 +1,19 @@
-package io.longweiquan.concurrency;
+package io.lwq.concurrent;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import io.lwq.concurrent.threadsafe.ThreadSafeImmutableTransaction;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
-import io.longweiquan.concurrency.threadsafe.NotThreadSafeTransaction;
-import io.longweiquan.concurrency.threadsafe.ThreadSafeImmutableTransaction;
-import io.longweiquan.concurrency.threadsafe.ThreadSafeSynchronizedTransaction;
-import io.longweiquan.concurrency.threadsafe.ThreadSafeWrapperTransaction;
-import io.longweiquan.concurrency.threadsafe.Transaction;
+import io.lwq.concurrent.threadsafe.NotThreadSafeTransaction;
+import io.lwq.concurrent.threadsafe.ThreadSafeSynchronizedTransaction;
+import io.lwq.concurrent.threadsafe.ThreadSafeWrapperTransaction;
+import io.lwq.concurrent.threadsafe.Transaction;
 
 
 

@@ -1,4 +1,4 @@
-package io.longweiquan.concurrency.threadsafe;
+package io.lwq.concurrent.threadsafe;
 
 /**
  * This interface is used to explain how to implement a thread-safe class. We

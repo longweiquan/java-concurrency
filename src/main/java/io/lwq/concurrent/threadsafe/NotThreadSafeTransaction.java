@@ -1,4 +1,4 @@
-package io.longweiquan.concurrency.threadsafe;
+package io.lwq.concurrent.threadsafe;
 
 
 /**
