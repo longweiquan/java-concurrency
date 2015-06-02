@@ -12,25 +12,7 @@ import java.util.concurrent.*;
 
 public class ThreadAndRunnableTest {
 
-    @Test
-    public void testRunnable(){
 
-        // Runnable is a functional interface for defining a task
-        Runnable task = () -> {
-            String threadName = Thread.currentThread().getName();
-            System.out.println(threadName + " : Hello!");
-        };
-
-        // A Runnable runs in main thread by default
-        task.run();
-
-        // A Runnable can run in a specific thread
-        Thread thread = new Thread(task);
-        thread.start();
-
-        // This out runs after the Runnable because they are in the same thread
-        System.out.println("main : Done!");
-    }
 
     @Test
     public void testRunnableWithSleep() throws InterruptedException {
