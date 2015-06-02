@@ -1,11 +1,9 @@
 package io.lwq.tutorial.thread;
 
-import io.lwq.concurrent.threadsafe.Transaction;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -17,53 +15,103 @@ public class SynchronizationTest {
 
     private Logger logger = Logger.getLogger(SynchronizationTest.class);
 
-    private final static int TOTAL = 100000;
-
-    private SynchronizedTransaction synchronizedTransaction = new SynchronizedTransaction(TOTAL, 0);
+    private int TOTAL = 100;
 
     @Test
-    public void synchronizedMethod() throws InterruptedException {
+    public void notSynchronizedMethod() throws InterruptedException {
+
+        Counter counter = new Counter();
 
         Runnable task = () -> {
             try {
-                synchronizedTransaction.transfer(1);
+                counter.inc();
             } catch (InterruptedException e) {
-                logger.info("interrupted");
+                e.printStackTrace();
             }
         };
 
         ExecutorService pool = Executors.newFixedThreadPool(5);
 
-        for(int i=0; i<100; i++){
+        for(int i=0; i<TOTAL; i++){
             pool.submit(task);
         }
         pool.shutdown();
         pool.awaitTermination(1, TimeUnit.MINUTES);
 
-        Assert.assertEquals(TOTAL, synchronizedTransaction.getTotal());
+        Assert.assertNotEquals(TOTAL, counter.getCount());
     }
 
+    @Test
+    public void synchronizedMethod() throws InterruptedException {
 
+        Counter counter = new Counter();
 
+        Runnable task = () -> {
+            try {
+                counter.incSyncMethod();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
 
-    public class SynchronizedTransaction {
+        ExecutorService pool = Executors.newFixedThreadPool(5);
 
-        private int accountFrom;
-        private int accountTo;
+        for(int i=0; i<TOTAL; i++){
+            pool.submit(task);
+        }
+        pool.shutdown();
+        pool.awaitTermination(1, TimeUnit.MINUTES);
 
-        public SynchronizedTransaction(int accountFrom, int accountTo) {
-            this.accountFrom = accountFrom;
-            this.accountTo = accountTo;
+        Assert.assertEquals(TOTAL, counter.getCount());
+    }
+
+    @Test
+    public void synchronizedSate() throws InterruptedException {
+
+        Counter counter = new Counter();
+
+        Runnable task = () -> {
+            try {
+                counter.incSyncState();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
+
+        ExecutorService pool = Executors.newFixedThreadPool(5);
+
+        for(int i=0; i<TOTAL; i++){
+            pool.submit(task);
+        }
+        pool.shutdown();
+        pool.awaitTermination(1, TimeUnit.MINUTES);
+
+        Assert.assertEquals(TOTAL, counter.getCount());
+    }
+
+    public class Counter {
+
+        private Integer count = 0;
+        private Object lock;
+
+        public int getCount(){
+            return count;
         }
 
-        public synchronized int getTotal() {
-            return accountFrom + accountTo;
+        public synchronized void incSyncMethod() throws InterruptedException {
+            inc();
         }
 
-        public synchronized void transfer(int amount) throws InterruptedException {
-            accountFrom -= amount;
+        public void incSyncState() throws InterruptedException {
+            synchronized (lock){
+                inc();
+            }
+        }
+
+        public void inc() throws InterruptedException {
+            int temp = count;
             Thread.sleep(1);
-            accountTo += amount;
+            count = temp + 1;
         }
     }
 
