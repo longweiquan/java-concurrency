@@ -1,4 +1,4 @@
-package io.lwq.tutorial.thread;
+package io.lwq.tutorial.concurrency;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -22,22 +22,13 @@ public class SynchronizationTest {
 
         Counter counter = new Counter();
 
-        Runnable task = () -> {
+        counter.incInParallel(() -> {
             try {
                 counter.inc();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
-        };
-
-        ExecutorService pool = Executors.newFixedThreadPool(5);
-
-        for(int i=0; i<TOTAL; i++){
-            pool.submit(task);
-        }
-        pool.shutdown();
-        pool.awaitTermination(1, TimeUnit.MINUTES);
-
+        }, TOTAL);
         Assert.assertNotEquals(TOTAL, counter.getCount());
     }
 
@@ -45,46 +36,27 @@ public class SynchronizationTest {
     public void synchronizedMethod() throws InterruptedException {
 
         Counter counter = new Counter();
-
-        Runnable task = () -> {
+        counter.incInParallel(() -> {
             try {
                 counter.incSyncMethod();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
-        };
-
-        ExecutorService pool = Executors.newFixedThreadPool(5);
-
-        for(int i=0; i<TOTAL; i++){
-            pool.submit(task);
-        }
-        pool.shutdown();
-        pool.awaitTermination(1, TimeUnit.MINUTES);
-
+        }, TOTAL);
         Assert.assertEquals(TOTAL, counter.getCount());
     }
 
     @Test
-    public void synchronizedSate() throws InterruptedException {
+    public void synchronizedBlock() throws InterruptedException {
 
         Counter counter = new Counter();
-
-        Runnable task = () -> {
+        counter.incInParallel(() -> {
             try {
-                counter.incSyncState();
+                counter.incSyncBlock();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
-        };
-
-        ExecutorService pool = Executors.newFixedThreadPool(5);
-
-        for(int i=0; i<TOTAL; i++){
-            pool.submit(task);
-        }
-        pool.shutdown();
-        pool.awaitTermination(1, TimeUnit.MINUTES);
+        }, TOTAL);
 
         Assert.assertEquals(TOTAL, counter.getCount());
     }
@@ -92,7 +64,7 @@ public class SynchronizationTest {
     public class Counter {
 
         private Integer count = 0;
-        private Object lock;
+        private Object lock = new Object();
 
         public int getCount(){
             return count;
@@ -102,7 +74,7 @@ public class SynchronizationTest {
             inc();
         }
 
-        public void incSyncState() throws InterruptedException {
+        public void incSyncBlock() throws InterruptedException {
             synchronized (lock){
                 inc();
             }
@@ -112,6 +84,16 @@ public class SynchronizationTest {
             int temp = count;
             Thread.sleep(1);
             count = temp + 1;
+        }
+
+        public void incInParallel(Runnable task, int total) throws InterruptedException {
+            ExecutorService pool = Executors.newFixedThreadPool(5);
+
+            for(int i=0; i<total; i++){
+                pool.submit(task);
+            }
+            pool.shutdown();
+            pool.awaitTermination(1, TimeUnit.MINUTES);
         }
     }
 
