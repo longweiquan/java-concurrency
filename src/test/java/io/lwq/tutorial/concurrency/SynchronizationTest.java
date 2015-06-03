@@ -9,7 +9,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Basic Synchronization Test
+ * Basic Synchronization Test.
+ *
+ * Synchronized code relies implicitly on ReentrantLock
+ *
+ * @see LockTest
  */
 public class SynchronizationTest {
 
