@@ -1,4 +1,4 @@
-package io.lwq.tutorial.concurrency;
+package io.lwq.tutorial.raw;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;

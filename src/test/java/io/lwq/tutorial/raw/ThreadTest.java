@@ -1,4 +1,4 @@
-package io.lwq.tutorial.concurrency;
+package io.lwq.tutorial.raw;
 
 import org.junit.Test;
 

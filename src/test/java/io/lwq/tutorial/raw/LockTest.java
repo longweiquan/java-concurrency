@@ -1,4 +1,4 @@
-package io.lwq.tutorial.concurrency;
+package io.lwq.tutorial.raw;
 
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ import java.util.stream.IntStream;
 public class LockTest {
 
     @Test
-    public void testReentrantLock(){
+    public void reentrantLock(){
         ExecutorService executor = Executors.newFixedThreadPool(2);
         ReentrantLock lock = new ReentrantLock();
 
@@ -46,7 +46,7 @@ public class LockTest {
     }
 
     @Test
-    public void testReadWriteLock(){
+    public void readWriteLock(){
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Map<String, String> map = new HashMap<>();
         ReadWriteLock lock = new ReentrantReadWriteLock();
@@ -65,7 +65,7 @@ public class LockTest {
     }
 
     @Test
-    public void testStampedLock(){
+    public void stampedLock(){
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Map<String, String> map = new HashMap<>();
         StampedLock lock = new StampedLock();
@@ -100,7 +100,7 @@ public class LockTest {
     }
 
     @Test
-    public void testOptimisticLock(){
+    public void optimisticLock(){
         ExecutorService executor = Executors.newFixedThreadPool(2);
         StampedLock lock = new StampedLock();
 
@@ -134,7 +134,7 @@ public class LockTest {
     }
 
     @Test
-    public void testSemaphore(){
+    public void semaphore(){
         ExecutorService executor = Executors.newFixedThreadPool(10);
 
         Semaphore semaphore = new Semaphore(5);
